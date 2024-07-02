@@ -44,12 +44,34 @@ class ArgParser():
 		change_parser = subparsers.add_parser(Actions.CHANGE_RESERVE, help="Change reserve")
 		change_parser.add_argument("-s", "--SRCreserveID", type=str, help="source reseve ID")
 		change_parser.add_argument("-d", "--DSTreserveID", type=str, help="destinaion reserve ID")
+		change_parser.add_argument("-t", "--Time", type=str, nargs='?', help="time of change reserve (optional)")
 		
 		# DELETE DB
 		delete_db_parser = subparsers.add_parser(Actions.DELETE_DB, help="Delete database")
   
 		# SHOW DB
 		show_db_parser = subparsers.add_parser(Actions.SHOW_DB, help="Show database")
+
+		# SHOW TODAY
+		show_today_parser = subparsers.add_parser(Actions.SHOW_TODAY, help="Show today's reserve")
+
+		# SHOW STUDENT RESERVE TODAY
+		show_today_reserve_parser = subparsers.add_parser(Actions.SHOW_STUDENT_RESERVE_TODAY, help="Show today's reserve of student")
+
+		# SHOW LAST 10 TRANSACTIONS
+		show_last_10_transactions_parser = subparsers.add_parser(Actions.SHOW_LAST_10_TRANSACTIONS, help="Show last 10 transactions")
+
+		# SHOW REMAIN FOOD
+		show_remain_food_parser = subparsers.add_parser(Actions.SHOW_REMAIN_FOOD, help="Show remain food")
+
+		# ASSET TURNOVER
+		asset_parser = subparsers.add_parser(Actions.ASSET_TURNOVER, help="Show asset turnover")
+
+		# STUDENT FOOD
+		student_food_parser = subparsers.add_parser(Actions.STUDENT_FOOD, help="show foods that student reserved")
+
+		# STUDENT TRANSACTION
+		student_transaction_parser = subparsers.add_parser(Actions.STUDENT_TRANSACTION, help="show transaction by user")
 
 	def get_args(self):
 		args =  self._parser.parse_args()

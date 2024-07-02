@@ -14,6 +14,13 @@ class Actions():
 	DELETE_DB = 'deleteDB'
 	SHOW_DB ='showDB'
 	TABLE_NAMES = ['students', 'foods', 'reservations', 'transactions']
+	SHOW_TODAY = 'showToday'
+	SHOW_STUDENT_RESERVE_TODAY = 'showStuToday'
+	SHOW_LAST_10_TRANSACTIONS = 'showLast10Transactions'
+	SHOW_REMAIN_FOOD = 'showRemainFood'
+	ASSET_TURNOVER = 'assetTurnover'
+	STUDENT_FOOD = 'studentFood'
+	STUDENT_TRANSACTION = 'studentTransaction'
 
 	def __str__(self):
 		return self.value.lower()
@@ -84,7 +91,7 @@ class Action():
 
 	def add(self, name, date, price, inventory):
 		try:
-			self.cursor.execute(f"INSERT INTO foods(name, date, price, inventory) VALUES('{name}', '{date}', '{price}', '{inventory}') RETURNING ID")
+			self.cursor.execute(f"INSERT INTO foods VALUES(DEFAULT, '{name}', '{date}', '{price}', '{inventory}') RETURNING ID")
 			ID = self.cursor.fetchone()[0]
 			ok("food added successfully with ID = " + str(ID))
 		except Exception as e:
@@ -162,14 +169,18 @@ class Action():
 			return 'null'
 		return ID
 
-	def change(self, SRC, DST):
+	def change(self, SRC, DST, TIME):
+		if TIME is None:
+			TIME = 'DEFAULT'
+		else:
+			TIME = f"'{TIME}'"
 		SRC = self.setNull(SRC)
 		DST = self.setNull(DST)
 
 		try:
 			self.checkReserveID(SRC, 'SRC')
 			self.checkReserveID(DST, 'DST')
-			self.cursor.execute(f"INSERT INTO transactions(SRCreservationID, DSTreservationID) VALUES({SRC}, {DST})")
+			self.cursor.execute(f"INSERT INTO transactions VALUES({SRC}, {DST}, {TIME})")
 			self.updateIsReserved(SRC, '+')
 			self.updateIsReserved(DST, '-')
 
@@ -190,3 +201,71 @@ class Action():
 			for row in rows:
 				cprint(row, "cyan")
 			print()
+			
+	def showToday(self):
+		self.cursor.execute(f"CALL name_inv()")
+		self.cursor.execute(f"SELECT * FROM today")
+		cprint("today", "magenta", attrs=["bold"])
+		cprint("=====", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row, "cyan")
+		print()
+
+	def showStudentReserveToday(self):
+		self.cursor.execute(f"CALL stu_today()")
+		self.cursor.execute(f"SELECT * FROM stuToday")
+		cprint("stuToday", "magenta", attrs=["bold"])
+		cprint("========", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row[0], "cyan")
+		print()
+
+	def showLast10Transactions(self):
+		self.cursor.execute(f"CALL last10()")
+		self.cursor.execute(f"SELECT * FROM last10Transactions")
+		cprint("last10Transactions", "magenta", attrs=["bold"])
+		cprint("==================", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row, "cyan")
+		print()
+	
+	def showRemainfood(self):
+		self.cursor.execute(f"CALL foods_remain()")
+		self.cursor.execute(f"SELECT * FROM foodsRemain")
+		cprint("foodsRemain", "magenta", attrs=["bold"])
+		cprint("==========", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row, "cyan")
+		print()
+
+	def assetTurnover(self):
+		self.cursor.execute(f"CALL asset_turnover()")
+		self.cursor.execute(f"SELECT * FROM assetTurnover")
+		cprint("assetTurnover", "magenta", attrs=["bold"])
+		cprint("=============", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row, "cyan")
+		print()
+
+	def studentFood(self):
+		self.cursor.execute(f"SELECT * FROM student_food")
+		cprint("student_food", "magenta", attrs=["bold"])
+		cprint("============", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row, "cyan")
+		print()
+
+	def studentTransaction(self):
+		self.cursor.execute(f"SELECT * FROM student_transaction")
+		cprint("student_transaction", "magenta", attrs=["bold"])
+		cprint("===================", "yellow")
+		rows = self.cursor.fetchall()
+		for row in rows:
+			cprint(row, "cyan")
+		print()

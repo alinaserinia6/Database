@@ -4,7 +4,7 @@
 
 ### REGISTER STUDENT
 
-```
+```bash
     python3 main.py register -n <nationalID> -i <studentID> -m <major> -b <birth_date> -f <first_name> -l <last_name> -c <balance>
 
     eg.
@@ -14,7 +14,7 @@
 
 ### REMOVE STUDENT
 
-```
+```bash
     python3 main.py remove <ID>
 
     eg.
@@ -23,7 +23,8 @@
 ```
 
 ### INCREASE CREDIT
-```
+
+```bash
     python3 main.py credit -i <studentID> -m <money>
 
     eg.
@@ -32,7 +33,8 @@
 ```
 
 ### ADD FOOD
-```
+
+```bash
     python3 main.py add -n <name> -d <date> -p <price> -i <inventory>
 
     eg.
@@ -41,7 +43,8 @@
 ```
 
 ### DELETE FOOD
-```
+
+```bash
     python3 main.py delete <IDs>
 
     eg.
@@ -50,7 +53,8 @@
 ```
 
 ### RESERVE
-```
+
+```bash
     python3 main.py reserve -s <studentID> -f <foodID>
 
     eg.
@@ -59,7 +63,8 @@
 ```
 
 ### CHANGE RESERVE
-```
+
+```bash
     python3 main.py change -s <SRCreserveID> -d <DSTreserveID> -t <date>
 
     eg.

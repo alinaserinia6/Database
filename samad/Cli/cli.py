@@ -44,14 +44,35 @@ class CLI():
 			self._action.reserve(self._args.studentID, self._args.foodID)
 
 		elif self._args.command == str(Actions.CHANGE_RESERVE):
-			self._action.change(self._args.SRCreserveID, self._args.DSTreserveID)
+			self._action.change(self._args.SRCreserveID, self._args.DSTreserveID, self._args.Time)
 			
 		elif self._args.command == str(Actions.DELETE_DB):
 			self._action.deleteDB()
 
 		elif self._args.command == str(Actions.SHOW_DB):
 			self._action.showDB()
+		
+		elif self._args.command == str(Actions.SHOW_TODAY):
+			self._action.showToday()
+		
+		elif self._args.command == str(Actions.SHOW_STUDENT_RESERVE_TODAY):
+			self._action.showStudentReserveToday()
+		
+		elif self._args.command == str(Actions.SHOW_LAST_10_TRANSACTIONS):
+			self._action.showLast10Transactions()
 
+		elif self._args.command == str(Actions.SHOW_REMAIN_FOOD):
+			self._action.showRemainfood()
+
+		elif self._args.command == str(Actions.ASSET_TURNOVER):
+			self._action.assetTurnover()
+
+		elif self._args.command == str(Actions.STUDENT_FOOD):
+			self._action.studentFood()
+		
+		elif self._args.command == str(Actions.STUDENT_TRANSACTION):
+			self._action.studentTransaction()
+		
 		else:
 			self._parser.print_help()
 
